@@ -12,9 +12,8 @@ const AdminProtectedRoute = ({ children }) => {
 
   if (isLoggedIn && !isAdmin) {
     // Redirect to "Not Authorized" page if the user is not an admin
-    return <Navigate to="/notfound" replace />;
+    return <Navigate to="/" replace />;
   }
-
   // Render the protected content if the user is an admin
   return children;
 };

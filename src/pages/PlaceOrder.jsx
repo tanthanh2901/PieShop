@@ -16,12 +16,14 @@ const PlaceOrder = () => {
     lastName: '',
   });
  
-  const {userInfo} = useContext(UserInfoContext);
+  const { userInfo } = useContext(UserInfoContext);
+
   useEffect(() => {
-    if (userInfo && JSON.stringify(userInfo) !== JSON.stringify(user)) {
+    if (userInfo) {
       setUser(userInfo);
     }
-  }, [userInfo, user]);
+  }, [userInfo]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,6 +76,7 @@ const PlaceOrder = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
           <input className='border border-gray-300 rounded py-1.5 px-3.5 w-full' 
             type="email" 
+            name="email"
             placeholder='Email'
             value={user.email || ''}
             onChange={handleChange}
@@ -84,6 +87,7 @@ const PlaceOrder = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">Ship name</label>
           <input className='border border-gray-300 rounded py-1.5 px-3.5 w-full' 
             type="text" 
+            name="shipName"
             placeholder='Ship name'
             value={user.shipName || ''}
             onChange={handleChange}
@@ -94,6 +98,7 @@ const PlaceOrder = () => {
           <label className="">Ship Address</label>
           <input className='border border-gray-300 rounded py-1.5 px-3.5 w-full' 
             type="text" 
+            name="shipAddress"
             placeholder='Street'
             value={user.shipAddress || ''}
             onChange={handleChange}
@@ -140,6 +145,7 @@ const PlaceOrder = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">phoneNumber</label>
           <input className='border border-gray-300 rounded py-1.5 px-3.5 w-full' 
             type="number" 
+            name="phoneNumber"
             placeholder='Phone'
             value={user.phoneNumber || ''}
             onChange={handleChange}

@@ -1,5 +1,6 @@
-export const routePath = "https://localhost:7226";
+export const routePath = "http://localhost:7226";
 
+// export const routePath = process.env.REACT_APP_API_URL;
 // authorization url
 const AuthenUrl = `${routePath}/authentication`;
 export const LoginUrl = `${AuthenUrl}/login`;

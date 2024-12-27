@@ -32,12 +32,11 @@ export function clearCartProducts(token){
 }
 
 // remove product in cart
-export function deleteCartProduct(productID, token) {
+export function deleteCartProduct(productID) {
     return axios.delete(`${removeFromCart}?productId=${productID}`, {
       withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,  // Ensure 'Bearer ' prefix
       }
     }).catch((error) => {
       console.error('Error deleting product:', error.response || error.message);

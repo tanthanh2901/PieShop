@@ -7,8 +7,6 @@ import { CartContext } from '../context/CartContext';
 
 function Cart() {
 
-  const token = localStorage.getItem('jwt'); // Get the token from localStorage
-
   const { cartProducts, setCartProducts, updateCart, numberOfCartProducts } = useContext(CartContext);
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -70,7 +68,7 @@ const removeCartProducts = async (cartItemId)=>{
   const productId = product.productId;
   console.log(productId);
   const updatedCartProducts = cartProducts.filter(product => product.cartItemId != cartItemId)
-  const res = await deleteCartProduct(productId, token);
+  const res = await deleteCartProduct(productId);
   if(200<=res.status&&res.status<300){
       setCartProducts(updatedCartProducts)
   }

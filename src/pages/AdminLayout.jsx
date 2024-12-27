@@ -20,6 +20,14 @@ const AdminLayout = () => {
       <button onClick={() => {setOpen(true)}} className="bg-gray-600 text-white px-5 py-2 sm:px-7 sm:py-2 rounded-full text-xs sm:text-sm mr-4">
         Logout
       </button>
+      <ModalComponent 
+        open={open} 
+        onClose={() => setOpen(false)}
+        modal={{
+          message:"are u sure", 
+          handle: handleLogout}
+        }                 
+      />
     </div>
   
     {/* Content Area */}

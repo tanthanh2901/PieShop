@@ -3,24 +3,27 @@ import { getOrderApi } from '../api/OrderApi';
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState('All');
-  const token = localStorage.getItem('jwt'); // Get the token from localStorage
 
   useEffect(() => {
     // Fetch orders from API on component mount
     const fetchOrders = async () => {
       try {
-        const response = await getOrderApi(token); // Call the API with token
-        const fetchedOrders = response.data; // Extract data from response
+        const response = await getOrderApi(); // Call the API with token
+        console.log(response.data)
+        const fetchedOrders = response.data || [];
+        if (!Array.isArray(fetchedOrders)) {
+          throw new Error('API response is not an array');
+        }   
         
         // Transform API response into the required format for UI
         const transformedOrders = fetchedOrders.map(order => ({
           id: order.orderId,
           status: convertStatus(order.status),
-          products: order.items.map(item => ({
-            productName: `Product ${item.productId}`, // Replace with actual product name if available
+          products: order.orderDetailsDto.map(item => ({
+            productName: item.productName, // Replace with actual product name if available
             quantity: item.quantity,
             price: item.unitPrice,
-            imageUrl: 'https://example.com/default-product.jpg', // Placeholder image, replace as needed
+            imageUrl: item.imageUrl, // Placeholder image, replace as needed
           })),
           orderDate: new Date(order.orderDate).toLocaleDateString(),
           totalAmount: order.totalAmount
@@ -32,7 +35,7 @@ const Orders = () => {
       }
     };
     fetchOrders(); 
-  }, [token]);
+  }, []);
 
   const filteredOrders = selectedStatus === 'All' ? orders : orders.filter(order => order.status === selectedStatus);
 
@@ -89,18 +92,7 @@ const Orders = () => {
                 <p className={`mt-1 font-medium ${getStatusColor(order.status)}`}>
                   {order.status}
                 </p>
-                <div className="mt-2">
-                  {order.status === 'Delivered' && (
-                    <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                      Review
-                    </button>
-                  )}
-                  {order.status !== 'Delivered' && (
-                    <button className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
-                      Track
-                    </button>
-                  )}
-                </div>
+                
               </div>
             </div>
           </div>

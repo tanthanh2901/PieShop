@@ -14,7 +14,7 @@ const Collection = () => {
     const fetchProducts = async (page) => {
         try {
           //const res = await axios.get(adminProductsUrl);
-          const res = await axios.get(`https://localhost:7226/products?pageNumber=${page}&pageSize=${pageSize}`)
+          const res = await axios.get(`https://api:7226/products?pageNumber=${page}&pageSize=${pageSize}`)
           if (res.status >= 200 && res.status < 300) {
             const data = Array.isArray(res.data.data) ? res.data.data : [];    
             setTotalPages(res.data.totalPages);    

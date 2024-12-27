@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { adminCategoriesUrl } from '../../constant/ShopApi';
+import { adminCategoriesUrl, createProduct } from '../../constant/ShopApi';
 
 const AddProduct = () => {
     const [categories, setCategories] = useState([]);
@@ -14,12 +14,12 @@ const AddProduct = () => {
           setCategories(res.data);
         }
       } catch (error) {
-        
+          console.log(error);
       }
     }
     fetchCategories();
   }
-  ,[categories]);
+  ,[]);
 
   const handleAdd = async (event) => {
     event.preventDefault();
@@ -41,25 +41,15 @@ const AddProduct = () => {
     formData.append("Stock", stock);
     formData.append("CategoryId", category);
 
-    try {
-        const response = await fetch("https://localhost:7226/admin/products/create", {
-            method: "POST",
-            body: formData, // FormData includes the correct content type
-        });
-
-        if (response.ok) {
-            const newProduct = await response.json();
-            alert("Product added successfully!");
-            console.log(newProduct);
-        } else {
-            const error = await response.json();
-            console.error("Error:", error);
-            alert("Failed to add product.");
-        }
-    } catch (error) {
-        console.error("Error adding product:", error);
-        alert("An error occurred.");
-    }
+      try {
+          const res = await axios.post(createProduct, formData);
+          const status = res.status;
+          if (status >= 200 && status <= 300) {
+              console.log('Response:', res.status);
+          }
+      } catch (error) {
+          console.error('Error:', error.response?.data || error.message);
+      }
 };
 
 
