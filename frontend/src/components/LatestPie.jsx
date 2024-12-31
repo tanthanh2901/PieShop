@@ -3,7 +3,7 @@ import {ShopContext} from '../context/ShopContext'
 import Title from './Title'
 import ProductItem from './ProductItem'
 
-const LatestCollection = () => {
+const LatestPie = () => {
     const { products } = useContext(ShopContext)
 
     const [latestCollection, setLatestCollection] = useState([])
@@ -15,9 +15,9 @@ const LatestCollection = () => {
   return (
     <div className='my-10'>
         <div className='text-center py-8 text-3xl'>
-            <Title text1 = {'LATEST'} text2 ={'COLLECTION'}/>
+            <Title text1 = {'LATEST'} text2 ={'PIE'}/>
             <p className='w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-700'>
-                text
+                Explore our latest collection of delicious, freshly baked pies
             </p>
         </div>
 
@@ -32,4 +32,4 @@ const LatestCollection = () => {
   )
 }
 
-export default LatestCollection
+export default LatestPie

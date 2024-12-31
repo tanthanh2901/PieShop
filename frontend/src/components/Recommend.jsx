@@ -15,9 +15,9 @@ const Recommend = () => {
     return (
         <div className='my-10'>
             <div className='text-center py-8 text-3xl'>
-                <Title text1 = {'Recommend'} text2 ={'PIE'}/>
+                <Title text1 = {'RECOMMEND'} text2 ={'PIE'}/>
                 <p className='w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-700'>
-                    text
+                    Our recommended pies are crafted with the finest ingredients and bursting with flavor
                 </p>
             </div>
 

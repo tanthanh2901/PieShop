@@ -1,6 +1,6 @@
 import React from 'react'
 import Hero from '../components/Hero'
-import LatestCollection from '../components/LatestCollection'
+import LatestPie from '../components/LatestPie'
 import Recommend from '../components/Recommend'
 import OurPolicy from '../components/OurPolicy'
 import NewsLetterBox from '../components/NewsLetterBox'
@@ -9,7 +9,7 @@ const Home = () => {
       <div>
         
         <Hero />
-        <LatestCollection />
+        <LatestPie />
         <Recommend />
         <OurPolicy />
         <NewsLetterBox />

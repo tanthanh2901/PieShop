@@ -6,12 +6,12 @@ const OurPolicy = () => {
       <div>
         <img src={assets.exchange_icon } alt="" className='w-12 m-auto mb-5' />
         <p className='font-semibold'>Easy Exchange Policy</p>
-        <p className=' text-gray-400'>We offer hassle free  exchange policy</p>
+        <p className=' text-gray-400'>Hassle-free pie exchange within 7 days</p>
       </div>
       <div>
         <img src={assets.quality_icon } alt="" className='w-12 m-auto mb-5' />
         <p className='font-semibold'>7 Days Return Policy</p>
-        <p className=' text-gray-400'>We provide 7 days free return policy</p>
+        <p className=' text-gray-400'>Return pies within 7 days for a full refund</p>
       </div>
       <div>
         <img src={assets.support_img} alt="" className='w-12 m-auto mb-5' />
