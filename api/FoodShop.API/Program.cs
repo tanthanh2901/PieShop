@@ -25,6 +25,12 @@ builder.Services.AddIdentity<AppUser, AppRole>()
        .AddEntityFrameworkStores<FoodShopDbContext>()
        .AddDefaultTokenProviders();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<YourDbContext>();
+    dbContext.Database.Migrate(); // Apply migrations
+}
+
 builder.Services
     .AddApplicationServices()
     .AddPersistenceServices(builder.Configuration)
