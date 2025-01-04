@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -24,12 +26,6 @@ builder.Services.AddDbContext<FoodShopDbContext>(options =>
 builder.Services.AddIdentity<AppUser, AppRole>()
        .AddEntityFrameworkStores<FoodShopDbContext>()
        .AddDefaultTokenProviders();
-
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<YourDbContext>();
-    dbContext.Database.Migrate(); // Apply migrations
-}
 
 builder.Services
     .AddApplicationServices()
@@ -123,7 +119,17 @@ builder.Services.AddHttpClient();
 var app = builder.Build();
 
 app.UseCors("AllowReactApp");
-//app.UseCors("AllowReactApp");
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<FoodShopDbContext>();
+
+    if (!dbContext.Database.GetService<IRelationalDatabaseCreator>().Exists())
+    {
+        dbContext.Database.Migrate();
+    }
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

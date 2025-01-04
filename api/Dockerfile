@@ -1,27 +1,29 @@
-# Use the official ASP.NET Core runtime for development
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
-EXPOSE 7226
+EXPOSE 80
 
-# Use the .NET SDK for building and development
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-
-# Copy project files for restoring dependencies
 COPY ["FoodShop.API/FoodShop.API.csproj", "FoodShop.API/"]
 COPY ["FoodShop.Application/FoodShop.Application.csproj", "FoodShop.Application/"]
 COPY ["FoodShop.Domain/FoodShop.Domain.csproj", "FoodShop.Domain/"]
-COPY ["FoodShop.Infrastructure/FoodShop.Infrastructure.csproj", "FoodShop.Infrastructure/"]
 COPY ["FoodShop.Persistence/FoodShop.Persistence.csproj", "FoodShop.Persistence/"]
-
+COPY ["FoodShop.Infrastructure/FoodShop.Infrastructure.csproj", "FoodShop.Infrastructure/"]
 # Restore dependencies
 RUN dotnet restore "FoodShop.API/FoodShop.API.csproj"
 
-# Copy the source code for hot reloading
+# Copy the source code  
 COPY . .
 
-# Set working directory to the API project
+# Build the application
 WORKDIR "/src/FoodShop.API"
+RUN dotnet build -c Release -o /app/build
+# Publish the application
+FROM build AS publish
+RUN dotnet publish -c Release -o /app/publish
+# Build the runtime image
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
 
-# Use dotnet watch for local development
-ENTRYPOINT ["dotnet", "watch", "run", "--urls", "http://0.0.0.0:7226"]
+ENTRYPOINT ["dotnet", "FoodShop.API.dll"]
