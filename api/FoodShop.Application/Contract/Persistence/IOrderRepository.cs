@@ -6,7 +6,7 @@ namespace FoodShop.Persistence.Repositories
 {
     public interface IOrderRepository
     {
-        Task<Order> CreateOrderAsync(Order order);
+        Task<Order> CreateOrder(Order order);
         Task<List<OrderDto>> GetAllOrders(int userId);
         Task<List<OrderDto>> AdminGetAllOrders();
         Task<OrderDto> GetOrderByIdAsync(int orderId);

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate  } from 'react-router-dom';
+import { register } from '../api/AuthorizationApi';
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -17,20 +18,10 @@ const Register = () => {
     };
 
     try {
-        const response = await fetch('https://localhost:7226/authentication/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(registerData),
-        });
+        const response = await register(registerData)
   
-        if (response.ok) {
-          const data = await response.json();
-          // Handle successful registration, e.g., show a success message or redirect to login
+        if (response.status === 200) {
           navigate('/login');
-
-          console.log('Registration successful:', data);
         } else {
           // Handle errors, e.g., show an error message
           console.error('Registration failed');

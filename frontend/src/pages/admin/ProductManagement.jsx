@@ -17,7 +17,7 @@ const ProductManagement = () => {
     const fetchProducts = async (page) => {
         try {
           //const res = await axios.get(adminProductsUrl);
-          const res = await axios.get(`https://localhost:7226/admin/products?pageNumber=${page}&pageSize=${pageSize}`)
+          const res = await axios.get(`http://localhost:7226/admin/products?pageNumber=${page}&pageSize=${pageSize}`)
           console.log(res)
 
           if (res.status >= 200 && res.status < 300) {

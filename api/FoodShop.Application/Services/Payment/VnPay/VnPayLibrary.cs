@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace FoodShop.Application.Feature.Payment.VnPay
+namespace FoodShop.Application.Services.Payment.VnPay
 {
     public class VnPayLibrary
     {

@@ -5,6 +5,8 @@ using FoodShop.Application.Feature.Categories.Commands.CreateCategory;
 using FoodShop.Application.Feature.Categories.Commands.UpdateCategory;
 using FoodShop.Application.Feature.Products.Commands.CreateProduct;
 using FoodShop.Application.Feature.Products.Commands.UpdateProduct;
+using FoodShop.Application.Feature.PaymentMethod.Commands.CreatePaymentMethod;
+using FoodShop.Application.Feature.PaymentMethod.Commands.UpdatePaymentMethod;
 
 namespace FoodShop.Application.Profiles
 {
@@ -30,11 +32,14 @@ namespace FoodShop.Application.Profiles
             CreateMap<Order, OrderDto>()
                 .ForMember(dest => dest.OrderDetailsDto, opt => opt.MapFrom(src => src.OrderDetail));
             CreateMap<Payment, PaymentDto>().ReverseMap();
+            CreateMap<PaymentMethod, PaymentMethodDto>().ReverseMap();
 
             CreateMap<CreateProductCommand, Product>().ReverseMap();
             CreateMap<UpdateProductCommand, Product>().ReverseMap();
             CreateMap<UpdateCategoryCommand, Category>().ReverseMap();
             CreateMap<CreateCategoryCommand, Category>().ReverseMap();
+            CreateMap<CreatePaymentMethodCommand, PaymentMethod>().ReverseMap();
+            CreateMap<UpdatePaymentMethodCommand, PaymentMethod>().ReverseMap();
         }
     }
 }

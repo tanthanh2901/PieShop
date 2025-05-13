@@ -1,7 +1,11 @@
 ﻿using FoodShop.Application.Contract.Persistence;
+using FoodShop.Application.Services;
 using FoodShop.Application.Services.Payment;
+using FoodShop.Application.Services.Payment.VnPay;
+using FoodShop.Application.Services.Payment.ZaloPay;
 using FoodShop.Infrastructure.Repositories;
 using FoodShop.Persistence.Repositories;
+using FoodShop.Persistence.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +31,12 @@ namespace FoodShop.Persistence
             services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<INotificationRepository, NotificationRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IVnPayService>(provider => provider.GetService<IPaymentService>());
+            services.AddScoped<IZaloPayService>(provider => provider.GetService<IPaymentService>());
+
 
             services.AddLogging();
             return services;

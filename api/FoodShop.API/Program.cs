@@ -5,6 +5,7 @@ using FoodShop.Application.Services.Payment.ZaloPay;
 using FoodShop.Domain.Entities;
 using FoodShop.Infrastructure;
 using FoodShop.Persistence;
+using FoodShop.Persistence.SeedData;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
@@ -20,7 +21,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddDbContext<FoodShopDbContext>(options =>
-       options.UseSqlServer(builder.Configuration.GetConnectionString("GloboTicketManageConnectionString")));
+       options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 builder.Services.AddIdentity<AppUser, AppRole>()
@@ -120,15 +121,27 @@ var app = builder.Build();
 
 app.UseCors("AllowReactApp");
 
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<FoodShopDbContext>();
+//app.CreateDbIfNotExists();
 
-    if (!dbContext.Database.GetService<IRelationalDatabaseCreator>().Exists())
+    using (var scope = app.Services.CreateScope())
     {
-        dbContext.Database.Migrate();
+        var dbContext = scope.ServiceProvider.GetRequiredService<FoodShopDbContext>();
+    //var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
+    //var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+
+    //dbContext.Database.Migrate();
+
+    //if (!dbContext.Database.GetService<IRelationalDatabaseCreator>().Exists())
+    //    {
+
+    //        //dbContext.Database.EnsureCreated();
+    //        dbContext.Database.Migrate();
+    //        //await IdentitySeeder.SeedRolesAndUsersAsync(roleManager, userManager);
+
+    //        //var serviceProvider = scope.ServiceProvider;
+    //        //await DbSeeder.SeedAsync(serviceProvider);
+    //    }
     }
-}
 
 if (app.Environment.IsDevelopment())
 {

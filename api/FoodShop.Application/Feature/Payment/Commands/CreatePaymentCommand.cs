@@ -1,5 +1,4 @@
-﻿using FoodShop.Application.Dto;
-using MediatR;
+﻿using MediatR;
 
 namespace FoodShop.Application.Feature.Payment.Commands
 {

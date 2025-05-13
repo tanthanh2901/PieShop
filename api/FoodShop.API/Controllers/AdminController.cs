@@ -11,6 +11,7 @@ using FoodShop.Application.Feature.Products.Commands.DeleteProduct;
 using FoodShop.Application.Feature.Products.Commands.UpdateProduct;
 using FoodShop.Application.Feature.Products.Queries.GetAllProducts;
 using FoodShop.Application.Feature.Products.Queries.GetProductDetails;
+using FoodShop.Application.Feature.PaymentMethod.Queries.GetAllPaymentMethods;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using FoodShop.Persistence.Repositories;
@@ -19,12 +20,14 @@ using Microsoft.AspNetCore.Identity;
 using FoodShop.Application.Feature.User.Model;
 using Microsoft.AspNetCore.Authorization;
 using FoodShop.Application.Dto;
+using FoodShop.Application.Feature.PaymentMethod.Commands.UpdatePaymentMethod;
+using FoodShop.Application.Feature.PaymentMethod.Commands.CreatePaymentMethod;
 
 namespace FoodShop.API.Controllers
 {
     [Route("admin")]
     [ApiController]
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")]
 
     public class AdminController : Controller
     {
@@ -33,15 +36,17 @@ namespace FoodShop.API.Controllers
         private readonly IProductRepository _productRepository;
         private readonly IOrderRepository orderRepository;
         private readonly IAdminRepository adminRepository;
+        private readonly IPaymentMethodRepository paymentMethodRepository;
 
 
-        public AdminController(RoleServices roleService, IMediator mediatR, IProductRepository productRepository, IOrderRepository orderRepository, IAdminRepository adminRepository)
+        public AdminController(RoleServices roleService, IMediator mediatR, IProductRepository productRepository, IOrderRepository orderRepository, IAdminRepository adminRepository, IPaymentMethodRepository paymentMethodRepository)
         {
             _roleService = roleService;
             this.mediatR = mediatR;
             _productRepository = productRepository;
             this.orderRepository = orderRepository;
             this.adminRepository = adminRepository;
+            this.paymentMethodRepository = paymentMethodRepository;
         }
 
         [HttpGet]
@@ -260,6 +265,36 @@ namespace FoodShop.API.Controllers
             return BadRequest(new { Message = "Failed to assign role to user." });
         }
 
+        [HttpGet("paymentMethods")]
+        public async Task<ActionResult<List<PaymentMethodDto>>> GetAllPaymentMethods()
+        {
+            var paymentMethods = await mediatR.Send(new GetAllPaymentMethodsQuery());
+            if (paymentMethods == null || paymentMethods.Count == 0)
+            {
+                return NotFound("No paymentMethods found.");
+            }
+            return Ok(paymentMethods);
+        }
 
+        [HttpPost("paymentMethods")]
+        public async Task<IActionResult> AddPaymentMethod(CreatePaymentMethodCommand createPaymentMethodCommand)
+        {
+            var paymentMethodId = await mediatR.Send(createPaymentMethodCommand);
+            return Ok(paymentMethodId);
+        }
+
+        [HttpPut("paymentMethods/update/{paymentMethodId}")]
+        public async Task<IActionResult> UpdatePaymentMethod(UpdatePaymentMethodCommand updatePaymentMethodCommand)
+        {
+            await mediatR.Send(updatePaymentMethodCommand);
+            return NoContent();
+        }
+
+        [HttpDelete("paymentMethods/delete/{paymentMethodId}")]
+        public async Task<IActionResult> DeletePaymentMethod(DeleteCategoryCommand deleteCategoryCommand)
+        {
+            await mediatR.Send(deleteCategoryCommand);
+            return NoContent();
+        }
     }
 }

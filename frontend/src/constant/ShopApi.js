@@ -1,6 +1,6 @@
 export const routePath = "http://localhost:7226";
 
-// export const routePath = process.env.REACT_APP_API_URL;
+//export const routePath = process.env.REACT_APP_API_URL;
 // authorization url
 const AuthenUrl = `${routePath}/authentication`;
 export const LoginUrl = `${AuthenUrl}/login`;
@@ -71,4 +71,7 @@ export const deleteCategoryApi = `${adminCategoriesUrl}/delete?categoryId=`;
 export const adminOrdersUrl = `${adminUrl}/orders`;
 export const adminOrderUrl = `${adminUrl}/orders/`;
 export const updateOrder = `${adminOrdersUrl}/update`;
+
+//payment
+export const placeOrder = `${routePath}/payment/placeOrder`;
 

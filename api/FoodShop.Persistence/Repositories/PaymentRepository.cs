@@ -5,13 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FoodShop.Persistence.Repositories
 {
-    public class PaymentRepository : IPaymentRepository
+    public class PaymentRepository : BaseRepository<Payment>, IPaymentRepository
     {
         private readonly FoodShopDbContext dbContext;
 
-        public PaymentRepository(FoodShopDbContext dbContext)
+        public PaymentRepository(FoodShopDbContext dbContext) : base(dbContext)
         {
-            this.dbContext = dbContext;
         }
 
         public async Task<bool> AddPayment(PaymentDto paymentDto)

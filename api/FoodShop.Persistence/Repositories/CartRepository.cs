@@ -153,5 +153,10 @@ namespace FoodShop.Persistence.Repositories
             await dbContext.SaveChangesAsync();
         }
 
+        public async Task<Cart> GetCartByUserIdAsync(int userId)
+        {
+            return await dbContext.Carts.FirstOrDefaultAsync(c => c.UserId == userId);
+        }
+
     }
 }

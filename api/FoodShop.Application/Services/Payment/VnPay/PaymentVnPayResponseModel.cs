@@ -1,4 +1,4 @@
-﻿namespace FoodShop.Application.Feature.Payment.VnPay
+﻿namespace FoodShop.Application.Services.Payment.VnPay
 {
     public class PaymentVnPayResponseModel
     {

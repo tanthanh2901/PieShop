@@ -1,4 +1,5 @@
 ﻿using FoodShop.Domain.Entities;
+using FoodShop.Persistence.SeedData;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,8 +39,8 @@ namespace FoodShop.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            new DbInitializer(modelBuilder).Seed();
 
-           
             modelBuilder.Entity<Order>()
                 .HasOne(o => o.User)
                 .WithMany(u => u.Orders)
@@ -77,8 +78,8 @@ namespace FoodShop.Persistence
                .WithOne(ci => ci.Cart)
                .HasForeignKey(ci => ci.CartId);
 
-            modelBuilder.Entity<CartItem>()
-                .HasOne(ci => ci.Product)
+                modelBuilder.Entity<CartItem>()
+                    .HasOne(ci => ci.Product)
                 .WithMany()
                 .HasForeignKey(ci => ci.ProductId);
         }

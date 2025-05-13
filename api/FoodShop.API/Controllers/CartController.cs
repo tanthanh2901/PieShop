@@ -1,6 +1,7 @@
 ﻿using FoodShop.Application.Contract.Persistence;
 using FoodShop.Application.Feature.Cart.Commands.UpdateQuantityCartItem;
 using FoodShop.Application.Feature.Cart.Queries.GetCart;
+using FoodShop.Application.Services;
 using FoodShop.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

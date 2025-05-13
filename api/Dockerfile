@@ -13,7 +13,11 @@ COPY ["FoodShop.Infrastructure/FoodShop.Infrastructure.csproj", "FoodShop.Infras
 RUN dotnet restore "FoodShop.API/FoodShop.API.csproj"
 
 # Copy the source code  
-COPY . .
+COPY ["FoodShop.API/", "FoodShop.API/"]
+COPY ["FoodShop.Application/", "FoodShop.Application/"]
+COPY ["FoodShop.Domain/", "FoodShop.Domain/"]
+COPY ["FoodShop.Persistence/", "FoodShop.Persistence/"]
+COPY ["FoodShop.Infrastructure/", "FoodShop.Infrastructure/"]
 
 # Build the application
 WORKDIR "/src/FoodShop.API"

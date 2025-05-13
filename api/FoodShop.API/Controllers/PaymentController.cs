@@ -47,9 +47,9 @@ namespace FoodShop.API.Controllers
             if (response.Success)
             {
                 //checkoutService.UpdateDbWhenPaymentSuccess();
-                return Json(new { message = "Payment successful" });
+                return Ok("Thanh toán thanh cong");
             }
-            return Json(new { message = "Payment failed or verification failed" });
+            return BadRequest("Thanh toán thất bại");
         }
     }
 }

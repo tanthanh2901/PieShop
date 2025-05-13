@@ -1,5 +1,4 @@
-﻿using FoodShop.Application.Contract.Persistence;
-using FoodShop.Application.Dto;
+﻿using FoodShop.Application.Dto;
 using FoodShop.Domain.Entities;
 using FoodShop.Domain.Enum;
 using Microsoft.EntityFrameworkCore;
@@ -9,13 +8,10 @@ namespace FoodShop.Persistence.Repositories
     internal class OrderRepository : IOrderRepository
     {
         private readonly FoodShopDbContext dbContext;
-        private readonly INotificationRepository notificationRepository;
 
-
-        public OrderRepository(FoodShopDbContext dbContext, INotificationRepository notificationRepository)
+        public OrderRepository(FoodShopDbContext dbContext)
         {
             this.dbContext = dbContext;
-            this.notificationRepository = notificationRepository;
         }
 
         public async Task<List<OrderDto>> AdminGetAllOrders()
@@ -43,26 +39,15 @@ namespace FoodShop.Persistence.Repositories
 
         }
 
-        public async Task<Order> CreateOrderAsync(Order order)
+        public async Task<Order> CreateOrder(Order order)
         {
-            await dbContext.Orders.AddAsync(order);
-
+            await dbContext.AddAsync(order);
             await dbContext.SaveChangesAsync();
-
             return order;
         }
 
         public async Task<List<OrderDto>> GetAllOrders(int userId)
         {
-            //return await dbContext.Orders
-            //    .Include(o => o.OrderDetail)
-            //        .ThenInclude(od => od.Product)
-            //    .Where(o => o.UserId == userId).ToListAsync();
-            //var orders = await dbContext.Orders
-            //   .Where(o => o.UserId == userId)
-            //   .Include(o => o.OrderDetail)
-            //   .ToListAsync();
-
             var orders = await dbContext.Orders
                 .Where(o => o.UserId == userId)
                 .Select(o => new OrderDto
@@ -118,18 +103,22 @@ namespace FoodShop.Persistence.Repositories
 
         public async Task<bool> UpdateOrderStatusAsync(int orderId, OrderStatus status)
         {
-            var order = await dbContext.Orders
-                    .FirstOrDefaultAsync(o => o.OrderId == orderId);
+            var order = await dbContext.Orders.FirstOrDefaultAsync(order => order.OrderId == orderId);
             if (order == null)
             {
                 return false;
             }
 
             order.Status = status;
-            dbContext.Orders.Update(order);
             await dbContext.SaveChangesAsync();
 
-            await notificationRepository.AddNotificationAsync(order.UserId, $"Your order #{orderId} status has been updated to {status}.");
+            var notification = new Notification
+            {
+                AppUserId = order.UserId,
+                Message = $"Your order status has been updated to {status}.",
+            };
+
+            await dbContext.Notifications.AddAsync(notification);
 
             return true;
 

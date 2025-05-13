@@ -1,10 +1,5 @@
 ﻿using FoodShop.Application.Contract.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FoodShop.Persistence.Repositories
 {
@@ -30,13 +25,23 @@ namespace FoodShop.Persistence.Repositories
 
         public async Task UpdateAsync(T entity)
         {
-            _dbContext.Entry(entity).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                _dbContext.Entry(entity).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw new InvalidOperationException("Concurrency issue occurred while updating", ex);
+            }
         }
-
         public async Task DeleteAsync(T entity)
         {
-            _dbContext.Set<T>().Remove(entity);
+            var existingEntity = await _dbContext.Set<T>().FindAsync(_dbContext.Entry(entity).Property("Id").CurrentValue);
+            if (existingEntity == null)
+                throw new KeyNotFoundException("Entity not found.");
+
+            _dbContext.Set<T>().Remove(existingEntity);
             await _dbContext.SaveChangesAsync();
         }
 

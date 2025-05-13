@@ -4,6 +4,7 @@ import { assets } from '../assets/assets';
 import { UserInfoContext } from '../context/UserInfoContext';
 import { CartContext } from '../context/CartContext';
 import axios from 'axios';
+import { placeOrder } from '../constant/ShopApi';
 
 const PlaceOrder = () => {
   const [user, setUser] = useState({
@@ -49,7 +50,7 @@ const PlaceOrder = () => {
 
   const handleCheckout = async () => {
     try {
-      const res = await axios.post("https://localhost:7226/payment/placeOrder", orderPayload);
+      const res = await axios.post(placeOrder, orderPayload);
       if(res.status >= 200 && res.status <= 300) {
         const data = res.data;
         if (orderPayload.paymentMethodId === '1') {
